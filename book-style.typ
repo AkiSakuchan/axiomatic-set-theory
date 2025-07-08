@@ -39,6 +39,9 @@
   // 强烈强调样式
   show strong: text.with(weight: "bold", font: (LatinFont, NotoSongti))
 
+  // 链接颜色
+  show link: set text(fill: rgb(17,32,233))
+
   // 行距, 段落间距, 首行缩进
   set par(first-line-indent: 2em, spacing: 2em, leading: 1.5em)
 
@@ -68,6 +71,7 @@
 
   //show math.equation: set text(lang:"zh", font: (LatinFont, NotoSongti))
 
+  // 目录
   outline(title: auto, depth: 2)
 
   // 正文页码设置
