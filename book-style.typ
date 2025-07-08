@@ -40,7 +40,8 @@
   show strong: text.with(weight: "bold", font: (LatinFont, NotoSongti))
 
   // 链接颜色
-  show link: set text(fill: rgb(17,32,233))
+  show link: set text(fill: rgb(204,33,96))
+  show cite: set text(fill: rgb(17,32,233))
 
   // 行距, 段落间距, 首行缩进
   set par(first-line-indent: 2em, spacing: 2em, leading: 1.5em)
