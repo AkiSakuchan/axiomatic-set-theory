@@ -110,7 +110,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 == 序数
 我们可以在 ZFC 之上继续构建一阶理论。首先我们给出序关系。
 
-=== 序关系
+
 #definition(title: "偏序")[
   *偏序(partial order)*理论是带等号的一阶理论，只有一个二元谓词，用 $<=$ 表示，并且用 $a >= b$ 来表示 $b <= a$，用 $a < b$ 来表示 $a <= b$ 以及 $a eq.not b$，
   没有函数项和常数项，有以下三条真公理：
@@ -141,6 +141,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 #definition(title: "良序集")[
   偏序集 $S$ 如果每个非空子集都有最小值，那么 $S$ 称为*良序集(well-ordered set, woset)*。
 ]
+显然良序集是全序集。
 
 #definition(title: "截断")[
   在一个偏序集 $E$ 中, 子集 $S$ 如果满足条件 $x in S, y in E$ 以及
@@ -152,4 +153,145 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 #proposition[
   良序集 $E$ 中的每个截断，如果不是 $E$ 自身的话，必然有形式 $(<-,a)$, 这里 $a in E$。
+]
+#proof[
+  参见 @bourbaki2007théorie[Ch.III, Sec.2, Prop.2]。
+]
+
+在良序集上有
+#theorem(title: "超限归纳法")[
+  设 $(X,<=)$ 是良序集，$P(x)$ 是谓词，进而有集合 $A = {x in X | P(x) }$。
+  如果截断 $( <- ,a) subset.eq A$ 蕴含着 $a in A$，也就是说如果所有比 $a$ 小的元素 $x$ 都具有性质 $P(x)$ 则 $a$ 也具有性质 $P(a)$， 
+  那么 $A = X$，也就是说 $X$ 中所有元素 $x$ 都具有性质 $P(x)$。
+]
+注意，超限归纳法不要求选择公理，它可以在任意良序集上使用，只是经常和良序定理配合而已。
+
+#definition[
+  设 $R,S$ 分别是集合 $X,Y$ 上的良序。我们说 $(X,R)$ 和 $(Y,S)$ 同构指的是存在双射 $s : X -> Y$ 使得
+  $s(a) <= ^S s(b)$ 当且仅当 $a <= ^R b$。
+]
+
+#theorem[
+  设 $E,F$ 是两个良序集。那么下列两个断言至少有一个为真：
+  + 存在唯一一个从 $E$ 到 $F$ 的某个截断的同构；
+  + 存在唯一一个从 $F$ 到 $E$ 的某个截断的同构。
+]<良序集同构二选一>
+#proof[
+  参见 @bourbaki2007théorie[Ch.III, Sec.2, Th.3]。
+]
+
+#corollary[
+  良序集 $E$ 到它自身的某个截断的唯一一个同构就是单位映射 $id_E$。
+]
+
+#corollary[
+  设 $E,F$ 是两个良序集。如果存在从 $E$ 到 $F$ 的截断 $T$ 的同构 $f$，又有从 $F$ 到 $E$ 的截断 $S$ 的同构 $g$，
+  那么 $S=E, T=F$, 并且 $g,f$ 互为逆映射.
+]
+
+序数是自然数用于排序的那部分功能的推广。从直观上可以把序数定义为良序集之间的同构的等价类，但是这样定义的序数太大而不是集合，
+导致讨论序数的集合时遇到困难。因此采用 von Neumann 给出的定义，把序数定义为小于它的序数构成的良序集：
+#definition[
+  *序数(ordinal)*指的是集合 $alpha$，且满足如下条件：
+  - $(alpha, in)$ 是良序集, 这里把 $x,y in alpha, x in y$ 定义为 $x < y$
+  - $alpha$ 是传递集: 如果 $gamma in beta, beta in alpha$, 那么 $gamma in alpha$
+]
+
+#remark[
+  在 $(alpha,in)$ 是全序集的前提下, $alpha$ 的任意非空子集 $x$ 都存在最小元素 $y$ 这个断言可以表示为：
+  #nonum-equation[
+    $ emptyset eq.not x subset.eq alpha ==> (exists y in x) ( x inter y = emptyset) $
+  ]
+  根据序数定义，$x$ 的最小元素 $y$ 不能和 $x$ 相交。而如果 $x$ 中某个元素 $y$ 和 $x$ 不相交，
+  那么就是说对每个 $z in x$ 都有 $z in.not y$ 于是根据全序关系的三歧性可以得到 $y <= z$ 也就是说 $y$ 是 $x$ 的最小元素。
+]
+
+#example[
+  容易看出我们可以定义自然数为 $0 = emptyset, 1 = {emptyset}, 2 = { emptyset, {{ emptyset }}}, dots$
+]
+
+关于序数有一些性质：
+#proposition[
+  + 序数的元素也是序数。
+  + 设 $alpha,beta$ 是序数, 则 $beta in alpha$ 当且仅当 $beta subset alpha$。
+]<序数元素是序数以及从属是包含>
+#proof[
+  对于 1，设 $alpha$ 是序数，$beta in alpha$。根据序数定义可知 $beta subset alpha$，于是 $beta$ 继承了 $alpha$ 的良序结构。
+  然后假设 $delta in gamma in beta$。由 $alpha$ 是序数可知 $delta in alpha$。
+  而 $beta$ 也属于 $alpha$, 并且 $in$ 在 $alpha$ 当中构成全序关系，
+  因此 $delta in beta, delta = beta, beta in delta$ 三者必然有且只有一个成立，而后两种情况会导出
+  $beta in gamma in beta in alpha$ 和 $beta in delta in gamma in beta in alpha$。
+  它们都是不成立的：否则会出现一个关于 $in$ 关系的无穷递降序列
+    #nonum-equation[
+      $ dots in x_(n+1) in x_n in dots in x_1 in alpha $
+    ]
+    根据 $alpha$ 是传递集以及数学归纳法可以得到每个 $x_n$ 都是 $alpha$ 的元素, 于是 ${ x_1, x_2, dots }$ 是 $alpha$ 的非空子集。
+    而 $alpha$ 在 $in$ 关系下是良序集，因此 $x$ 中存在最小的一个 $x_n$。然而必然会有 $x_(n+1) in x_n, x_(n+1) in x$，
+    这样 $x_n$ 就不是 $x$ 的最小元素，就出现了矛盾。
+
+    对于 2，假设 $beta in alpha$，那么根据传递集性质有 $beta subset.eq alpha$。若 $beta = alpha$，那么会出现
+    $beta in beta in alpha$ 跟上面证明的不存在无穷递降序列矛盾，因此 $beta subset alpha$。
+    
+    反过来，假设 $beta subset alpha$. 那么 $emptyset eq.not alpha without beta subset.eq alpha$，
+    也就是存在最小元素 $x in alpha without beta$ 使得 $x inter (alpha without beta) = emptyset$。
+    再由序数传递性可得 $x subset.eq alpha$，或者 $x = x inter alpha$。因此 $x without beta = emptyset$, 即 $x subset.eq beta$。
+    从区间上来看 $alpha without beta$ 有点像一个下有界的区间，因此找到这个区间的下端点就能表达 $beta$，下面再证明这个下端点就是 $beta$。
+
+    假设 $beta eq.not x$，也就是有 $y in beta without x$，那么从 $x in.not beta$ 知道 $x eq.not y$。
+    而 $y in beta subset alpha$ 结合 $x in alpha$ 以及 $y in.not x$，那么根据全序关系必然有 $x in y$。
+    另外根据序数的传递性可得 $x,y$ 都是序数，这样根据上面证明的必要性可以得到 $x subset y$。
+    $y in beta$ 推出 $y subset beta$，这样 $y inter (beta without x) = y without x eq.not emptyset$。
+    也就是说, 对于任意 $y in beta without x$, $y inter (beta without x)$ 非空，这和 $beta$ 是良序矛盾，因此 $beta = x in alpha$.
+]
+
+#corollary[
+  序数 $alpha$ 中的元素关于 $subset.eq$ 也是良序集。
+]
+
+#proposition[
+  任意个序数的交还是序数。
+]
+#proof[
+  设有非空指标集 $I$ 和序数集 $(alpha_i)_(i in I)$. 则
+  #nonum-equation[
+    $ x in inter.big_(i in I) alpha_i ==> (forall i in I) x in alpha_i ==> 
+    (forall i in I) x subset.eq alpha_i ==> x subset.eq inter.big_(i in I) alpha_i $
+  ]
+  因此 $inter_i alpha_i$ 是传递集。而 $inter_i alpha_i$ 继承了任意一个 $alpha_i$ 的良序结构。
+]
+
+#corollary[
+  任意序数组成的集合，在 $subset.eq$ 关系下有最小序数。
+]
+#proof[
+  设有非空指标集 $I$ 和序数集 $(alpha_i)_(i in I)$。如果对任意 $j in I$ 都有 $alpha_j eq.not inter_i alpha_i$，
+  那么首先 $inter_i alpha_i$ 是序数，并且是每个 $alpha_j$ 的真子集，于是根据 @序数元素是序数以及从属是包含 得到序数
+  $inter_i alpha_i in alpha_j$，这样就有
+  #nonum-equation[
+    $ inter_i alpha_i in inter_i alpha_i $
+  ]
+  这和不存在 $in$ 关系下的序数的无穷递降链矛盾。因此至少有一个 $alpha_j = inter_i alpha_i$，于是它就是序数集 $(alpha_i)_(i in I)$ 的最小序数。
+]
+
+现在我们看到，序数实际上满足良序关系，也就是说任意序数组成的集合都是良序集。
+如果序数 $alpha$ 是序数 $beta$ 的真子集，那么我们写作 $alpha < beta$。
+显然 $alpha < beta$ 时，根据 @序数元素是序数以及从属是包含 可以得到 $alpha$ 是 $beta$ 的一个截断。
+而根据 @良序集同构二选一 可以得到两个序数同构当且仅当它们相等。
+
+由序数构成的集合总是有最小元素，不管是在包含关系 $subset.eq$ 还是从属关系 $in$ 下。
+因为总可以先考虑包含关系得到包含关系下的最小元素，然后通过 @序数元素是序数以及从属是包含 得到从属关系下的最小元素。
+因此在证明某个集合是序数时，只需要证明它是传递集以及具有全序关系即可。
+
+对于之前的直观，我们由下列命题保证：
+#theorem(title: "Mirimanoff - von Neumann")[
+  对任意良序集 $(X,<=)$，存在唯一一个序数 $alpha$ 使得 $(X,<=)$ 和 $(alpha, in)$ 同构。
+]
+#proof[
+  两个序数同构当且仅当它们相等，因此有了唯一性。
+
+  用超限归纳法可以定义 $X$ 上的函数 $f$ 使得对任意 $x in X$ 有 $f(a) = emptyset$ 这里 $a$ 是 $X$ 当中的最小元素，以及
+  #nonum-equation[
+    $ f(x) = { f(y) | y < x } $
+  ]
+  容易验证 $f$ 的像是传递集，并且 $f(y) in f(x)$ 当且仅当 $y < x$。因此 $f$ 的像是序数，并且 $f$ 是唯一一个同构 (@良序集同构二选一).
 ]
