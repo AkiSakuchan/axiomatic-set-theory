@@ -8,8 +8,8 @@
 #let Vdash = math.class("normal", math.tack.r.double)
 
 = ZFC 集合论
-现在我们可以谈论公理集合论了。
-- 公理集合论是一种带等号的一阶理论（参见 @等号公理）。
+现在我们可以谈论 ZFC 公理集合论了。
+- ZFC 集合论是一种带等号的一阶理论（参见 @等号公理）。
 - 它的变量我们除了 $x_1,x_2,x_3,dots$ 来表示外，也用 $x,y,z$ 等最后的字母以及它们带下标的形式来表示，有时为了区分也用大写字母。
 - 它没有常量。
 - 它的谓词除了等号以外还有一个二元谓词 $A_2^2$，用 $a in b$ 表示 $A_2^2(a,b)$，用 $a in.not b$ 表示 $not A_2^2(a,b)$。
@@ -43,7 +43,7 @@
   这条公理用人话说就是如果对任意 $x$，都存在唯一 $y$ 使得性质 $cal(P)(x,y)$ 成立，
   那么对任意集合 $A$，都存在集合 $B$ 使得 $y in B$ 当且仅当有 $x in A$ 使得 $cal(P)(x,y)$。
 ]<替换公理>
-首先满足条件的 $cal(P)(x,y)$ 实际上可以定义一个"函数" $F$，把 $F(x) = y$ 定义为 $P(x,y)$，后半部分实际上要求对任意集合
+首先满足条件的 $cal(P)(x,y)$ 实际上可以定义一个"函数" $F$，把 $F(x) = y$ 定义为 $cal(P)(x,y)$，后半部分实际上要求对任意集合
 $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作用得来。
 
 #axiom(title: "分类公理")[
@@ -161,9 +161,15 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 在良序集上有
 #theorem(title: "超限归纳法")[
   设 $(X,<=)$ 是良序集，$P(x)$ 是谓词，进而有集合 $A = {x in X | P(x) }$。
-  如果截断 $( <- ,a) subset.eq A$ 蕴含着 $a in A$，也就是说如果所有比 $a$ 小的元素 $x$ 都具有性质 $P(x)$ 则 $a$ 也具有性质 $P(a)$， 
+  如果截断 $( <- ,a) subset.eq A$ 推得出 $a in A$，也就是说如果所有比 $a$ 小的元素 $x$ 都具有性质 $P(x)$ 则 $a$ 也具有性质 $P(a)$， 
   那么 $A = X$，也就是说 $X$ 中所有元素 $x$ 都具有性质 $P(x)$。
 ]
+#proof[
+  假设 $A eq.not X$，那么 $X without A$ 是 $X$ 的非空子集，于是有最小元素 $a$。
+  于是对任意 $x < a$ 都不属于 $X without A$ 也就是说 $x in A$，这样截断 $(<-,a) subset.eq A$，
+  于是 $a in A$，这就出现了矛盾。
+]
+
 注意，超限归纳法不要求选择公理，它可以在任意良序集上使用，只是经常和良序定理配合而已。
 
 #definition[
@@ -273,25 +279,141 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   这和不存在 $in$ 关系下的序数的无穷递降链矛盾。因此至少有一个 $alpha_j = inter_i alpha_i$，于是它就是序数集 $(alpha_i)_(i in I)$ 的最小序数。
 ]
 
-现在我们看到，序数实际上满足良序关系，也就是说任意序数组成的集合都是良序集。
+现在我们看到，序数在包含关系下实际上是良序，也就是说任意序数组成的集合都是良序集。
 如果序数 $alpha$ 是序数 $beta$ 的真子集，那么我们写作 $alpha < beta$。
 显然 $alpha < beta$ 时，根据 @序数元素是序数以及从属是包含 可以得到 $alpha$ 是 $beta$ 的一个截断。
 而根据 @良序集同构二选一 可以得到两个序数同构当且仅当它们相等。
 
-由序数构成的集合总是有最小元素，不管是在包含关系 $subset.eq$ 还是从属关系 $in$ 下。
-因为总可以先考虑包含关系得到包含关系下的最小元素，然后通过 @序数元素是序数以及从属是包含 得到从属关系下的最小元素。
-因此在证明某个集合是序数时，只需要证明它是传递集以及具有全序关系即可。
+进一步，由序数构成的集合在从属关系 $in$ 下总是有最小元素，因为总可以先考虑包含关系得到包含关系下的最小元素，然后通过 @序数元素是序数以及从属是包含 
+得到从属关系下的最小元素。因此在证明某个由序数组成的集合是序数时，只需要证明它是传递集即可。
+
+#note-box[
+  全体序数构成的真类记为 $bold("Ord")$，但是在 ZFC 中不讨论真类，它将在下一章讨论。
+]
 
 对于之前的直观，我们由下列命题保证：
 #theorem(title: "Mirimanoff - von Neumann")[
   对任意良序集 $(X,<=)$，存在唯一一个序数 $alpha$ 使得 $(X,<=)$ 和 $(alpha, in)$ 同构。
-]
+]<良序集和序数同构>
 #proof[
   两个序数同构当且仅当它们相等，因此有了唯一性。
 
-  用超限归纳法可以定义 $X$ 上的函数 $f$ 使得对任意 $x in X$ 有 $f(a) = emptyset$ 这里 $a$ 是 $X$ 当中的最小元素，以及
+  用超限归纳法可以定义 $X$ 上的函数 $f$ 使得 $f(a) = emptyset$ 这里 $a$ 是 $X$ 当中的最小元素，以及对任意 $x in X$ 有
   #nonum-equation[
-    $ f(x) = { f(y) | y < x } $
+    $ f(x) = { f(y) in alpha | y < x } $
   ]
-  容易验证 $f$ 的像是传递集，并且 $f(y) in f(x)$ 当且仅当 $y < x$。因此 $f$ 的像是序数，并且 $f$ 是唯一一个同构 (@良序集同构二选一).
+  实际上如果对于 $x < a$ 已经定义 $f(x)$ 满足上式，则可以把 $f(a)$ 定义为：
+  #nonum-equation[
+    $ f(a) = union.big_(x < a) f(x) union { f(x) } $
+  ]
+  然后就能验证 $f(a) = {f(y) in alpha | y < a}$，这样 $f$ 就被构造出来了。当 $y < x$ 时显然有 $f(y) in f(x)$。
+  反过来如果 $y lt.not x$，那么有 $y = x$ 或者 $y > x$，不论哪种情况都不会有 $f(y) in f(x)$，否则会出现 $alpha$ 中的无穷递降序列。
+  因此 $y < x$ 当且仅当 $f(y) in f(x)$，这也说明了 $f$ 是单射。
+
+  $f$ 的像显然是传递集，因此 $f$ 的像是序数，并且 $f$ 是唯一一个同构 (@良序集同构二选一)。
 ]
+
+下面讨论序数算数：
+#lemma(title: "后继序数")[
+  每个序数 $alpha$ 的后继序数, 也就是大于 $alpha$ 的最小序数, 记为 $alpha+1$, 是 $alpha union { alpha }$.
+]<后继序数>
+#proof[
+  若 $x in alpha union {alpha}$，那么 $x in alpha$ 或者 $x = alpha$，根据 $alpha$ 的传递性总有
+  #nonum-equation($x subset.eq alpha subset.eq alpha union {alpha}$)
+  因此 $alpha union {alpha}$ 是传递集，根据 @序数元素是序数以及从属是包含 可知它还是由序数组成的，因此也是序数。
+
+  而 $alpha in alpha union {alpha}$，因此 $alpha < alpha union {alpha}$。
+  如果 $beta > alpha$，那么 $beta eq.not alpha$，并且 $beta in.not alpha$，
+  于是 $beta in.not alpha union {alpha}$，也就是 $beta >= alpha union {alpha}$, 即后者是大于 $alpha$ 的最小序数。
+]
+
+#lemma(title: "最小上界序数")[
+  若 $A$ 是序数组成的集合，那么 $union.big A$ 是 $A$ 的最小上界序数，记为 $sup A$。
+]<最小上界序数>
+#proof[
+  传递集的并还是传递集。$A$ 中序数的元素还是序数，因此 $union.big A$ 就是序数组成的传递集，于是也是序数。
+  若序数 $x in A$ 则 $x subset.eq union.big A$，进而 $x in union.big A$，也就是说
+  $union.big A$ 是 $A$ 的上界序数。如果有序数 $beta$ 使得对任意 $x in A$ 都有 $x in beta$，则 $x subset beta$，
+  于是 $union.big A subset beta$ 进而 $union.big A in beta$，因此 $union.big A$ 是 $A$ 的最小上界。
+]
+
+#lemma[
+  如果 $alpha$ 是序数，则必然是下列三种情况之一：
+  + $alpha = 0$；
+  + 存在序数 $beta$ 使得 $alpha = beta + 1$，即 $alpha$ 是后继序数；
+  + $alpha = sup alpha$，此时称 $alpha$ 是极限序数。
+]
+#proof[
+  假设 $alpha eq.not 0$。那么注意到 $alpha$ 有最大元素 $beta in alpha$ 当且仅当 
+  $beta + 1 subset.eq alpha$ 并且对任意 $x in alpha$ 有 $x <= beta$。
+  此时 $x <= beta$ 有 $x in beta$ 或者 $x = beta$ 两种情况，不管哪种情况都有 $x in beta union {beta} = beta + 1$，
+  因此 $alpha = beta + 1$。
+
+  而当 $alpha$ 没有最大元素时，也就是对任意 $x in alpha$，都存在一个 $alpha$ 当中更大的序数 $y > x$ 或者
+  $x in y$，这样 $alpha subset.eq union.big alpha$, 注意 $alpha supset.eq union.big alpha$ 总是成立。
+]
+
+#note-box[
+  显然自然数集 $NN$ 就是一个极限序数，实际上它是第一个极限序数，记为 $omega_0$。
+]
+
+现在可以定义序数运算了：
+#definition(title: "序数和")[
+  + $alpha + 0 = alpha$
+  + $alpha + beta = (alpha + gamma) + 1$, 如果 $beta = gamma + 1$ 是后继序数
+  + $alpha + beta = union.big_(gamma < beta) (alpha + gamma)$, 如果 $beta$ 是极限序数.
+]
+
+#definition(title: "序数积")[
+  + $alpha dot 0 = 0$
+  + $alpha dot beta = alpha dot gamma + alpha$，如果 $beta = gamma + 1$ 是后继序数
+  + $alpha dot beta = union.big_(gamma < beta) (alpha dot gamma)$，如果 $beta$ 是极限序数
+]
+
+== 基数
+序数用来给对象排序，而基数则是用来给集合比大小。
+
+#definition[
+  一个集合 $X$ 和集合 $Y$ 是*等势的(equipotent)*指的是存在一个从 $X$ 到 $Y$ 的双射，记作 $abs(X) = abs(Y)$。
+]
+
+直观的说应该把基数定义为上面关系的等价类，但是这样一来每个基数成为真类，就不能把一些基数组成集合。 
+参考无穷集的定义：无穷集指的是不能和子集等势的集合，我们模仿其定义基数：
+
+#definition[
+  一个序数如果不能和比它小的序数等势，那么就称它为*基数(cardinal)*。
+]
+
+#note-box[
+  全体基数构成的真类记为 $bold("Card")$，但是在 ZFC 中不讨论真类，它将在下一章讨论。
+]
+
+自然数集显然是基数 $aleph_0$ 表示，具有这个基数的集合就是可数集。而每个自然数也是基数，我们称其为有限基数。
+所以对于有限集来说，基数和序数是一样的，但是对无限集来说就需要分开讨论了。
+
+前面的直观由以下命题保证：
+#proposition[
+  对任意集合 $X$，存在唯一基数 $alpha$ 和它等势，也就是满足这个条件的最小序数。这个 $alpha$ 称为 $X$ 的*势*, 记为 $abs(X)$.
+]
+#proof[
+    根据良序定理，$X$ 上有良序，然后根据 @良序集和序数同构，存在一个序数 $alpha$ 和 $X$ 同构，特别地和 $X$ 双射。集合
+    #nonum-equation[
+      $ A := { beta in alpha | abs(X) = abs(beta)  } $
+    ]
+    如果是空集，则 $alpha$ 就是最小的和 $X$ 等势的序数。如果 $A$ 非空，则它是良序集 $alpha$ 的子集，
+    必然存在一个最小序数 $alpha'$ 和 $X$ 等势。因此我们证明了存在一个最小的和 $X$ 等势的序数 $alpha$，而唯一性显然。
+
+    如果 $alpha$ 能和比自己小的序数 $beta$ 建立双射，则它也和 $X$ 等势，这与 $alpha$ 是最小的矛盾，因此 $alpha$ 是基数。
+]
+
+#definition(title: "加法和乘法")[
+  基数加法定义为 $sum_(i in I) abs(X_i) = abs(union.big.sq_(i in I) X_i)$。
+  基数乘法定义为 $product_(i in I) abs(X_i) = abs(product_(i in I) X_i)$.
+]
+
+#definition(title: "指数")[
+  基数的指数定义为 $abs(Y)^abs(X) = abs(Y^X)$，其中 $Y^X$ 表示所有 $X$ 到 $Y$ 的映射组成的集合。
+]
+
+值得注意的一个情况是 $Y = 2$ 时，这里 $2$ 定义为 ${0,1}$。那么从 $X$ 到 $2$ 的映射实际上是子集指示函数，
+每个映射和 $X$ 的一个子集对应，于是 $2^X$ 实际上是 $X$ 的幂集。
