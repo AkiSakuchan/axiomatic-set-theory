@@ -63,7 +63,7 @@ Grothendieck 宇宙是 ZFC 中允许的一个集合 $cal(U)$，但它给出了 Z
   #nonum-equation[
     $ B := union.big_(x in A) {F(x)} $
   ]
-  根据 Grothendieck 宇宙对索引并集的封闭性可以得到 $B cal(U)$。
+  根据 Grothendieck 宇宙对索引并集的封闭性可以得到 $B in cal(U)$。
 
   这样我们就证明了 $cal(U)$ 确实是 ZFC 的一个模型。
 ]
