@@ -107,12 +107,12 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   因此它也可以表达为非空集合的集合的笛卡尔积非空。
 ]<选择公理>
 
-== 序数
+== 序理论
 我们可以在 ZFC 之上继续构建一阶理论。首先我们给出序关系。
 
 
 #definition(title: "偏序")[
-  *偏序(partial order)*理论是带等号的一阶理论，只有一个二元谓词，用 $<=$ 表示，并且用 $a >= b$ 来表示 $b <= a$，用 $a < b$ 来表示 $a <= b$ 以及 $a eq.not b$，
+  *偏序(partial order)*关系是带等号的一阶理论，只有一个二元谓词，用 $<=$ 表示，并且用 $a >= b$ 来表示 $b <= a$，用 $a < b$ 来表示 $a <= b$ 以及 $a eq.not b$，
   没有函数项和常数项，有以下三条真公理：
   + 自反性：对任意 $a$，有 $a <= a$。
   + 反自反性：如果 $a <= b$ 与 $b <= a$ 则 $a=b$。
@@ -132,13 +132,13 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 偏序集中有两种有单独命名：
 #definition(title: "全序")[
-  全序理论是在偏序理论的公理上再加上一条
+  全序关系是在偏序理论的公理上再加上一条
   4. 完全性：$a <= b$ 与 $b <= a$ 至少有一个成立。
 
   全序也称线性序。全序模型称为*全续集(toset)*。
 ]
 
-#definition(title: "良序集")[
+#definition(title: "良序")[
   偏序集 $S$ 如果每个非空子集都有最小值，那么 $S$ 称为*良序集(well-ordered set, woset)*。
 ]
 显然良序集是全序集。
@@ -152,7 +152,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 我们注意到，有一种截断，记作 $(<-, a)$，这里 $a in E$，表示所有满足 $y < a$ 的 $y in E$ 组成的集合，这种集合显然应该称为*区间(interval)*。
 
 #proposition[
-  良序集 $E$ 中的每个截断，如果不是 $E$ 自身的话，必然有形式 $(<-,a)$, 这里 $a in E$。
+  良序集 $E$ 中的每个截断，如果不是 $E$ 自身的话，必然有形式 $(<-,a)$, 这里 $a in E$，这种形式的截断记为 $S_a$。
 ]
 #proof[
   参见 @bourbaki2007théorie[Ch.III, Sec.2, Prop.2]。
@@ -172,6 +172,34 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 注意，超限归纳法不要求选择公理，它可以在任意良序集上使用，只是经常和良序定理配合而已。
 
+#theorem(title: "超限递归构造")[
+  设 $(X, <=)$ 是良序集，当 $u$ 是函数时，$T(u)$ 是一个集合。则存在一个集合 $U$ 和映射 $f:X -> U$ 使得对任意
+  $x in X$ 有 $f(x) = T(f|(<-,x))$，这里 $f|(<-,x)$ 表示 $f$ 限制在截断 $(<-,x)$ 上得到的函数。
+  这里 $U$ 和 $f$ 都是唯一的。
+]
+#proof[
+  先证明唯一性：设有集合 $U'$ 与函数 $f'$ 也满足相关条件。设 $a in X$，如果对任意 $x < a$ 都有 $f(x) = f'(x)$，则
+  $f|S_a = f'|S_a$，进而 $f(a) = T(f|S_a) = T(f'|S_a) = f'(a)$。于是根据超限归纳法就有 $f = f'$。
+
+  对于存在性。设 $P(x)$ 表示存在函数 $f_x$，定义域为 $S_x$，且满足对任意 $y in S_x$ 有 $f_x (y) = T(f_x|S_y)$。
+  根据前面证明的唯一性，这个 $f_x$ 是唯一的，并且对 $a<b$ 有 $f_a = f_b|S_a$，设每个 $y < x$ 都有 $P(y)$。注意到
+  #nonum-equation[
+    $ S_x = union.big_(y < x) S_y union {y} $
+  ]
+  因此当 $t in S_y, y<x$ 时定义 $f_x (t) = f_y (t)$，当 $t = y$ 时，定义 $f_x (t) = T(f_y)$。
+  这是良定义，若有 $y < y' < x$，则对于 $t < y$ 时，$f_y (t) = f_y'(t)$ 因为唯一性，而对于 $t = y in S_y'$，有
+  $f_y'(t) = T(f_y'|S_y) = T(f_y)$，最后这个等式依然来自唯一性。这样我们定义了 $S_x$ 上的 $f_x$，同时有
+  $f_x|S_y = f_y$，因此 $f_x (y) = T(f_y) = T(f_x|S_y)$。 因此对 $x$ 来说 $P(x)$ 也成立，
+  于是根据超限归纳法可得对任意 $x in X$ 都有 $P(x)$ 成立。
+
+  如果 $X$ 没有最大元素，则 $X = union.big_(x in X) S_x$，于是 $f$ 可以定义为所有 $f_x$ 的并，也就是任意
+  $t in X$ 都在某个 $S_x$ 当中，定义 $f(t) = f_x (t)$，这是良定义的并且对任意 $t in X$ 有 $f(t) = T(f|S_t)$。
+
+  如果 $X$ 有最大元素 $a$，则 $X = {a} union union.big_(x in X) S_x$，此时所有 $f_x$ 的并记为 $g$，
+  于是对于 $t eq.not a$ 定义 $f(t) = g(t)$，对于 $t = a$ 定义 $f(t) = T(g)$。
+  显然 $f|S_a = g$，因此 $f$ 依然满足条件。这样就完成了存在性的证明。
+]
+
 #definition[
   设 $R,S$ 分别是集合 $X,Y$ 上的良序。我们说 $(X,R)$ 和 $(Y,S)$ 同构指的是存在双射 $s : X -> Y$ 使得
   $s(a) <= ^S s(b)$ 当且仅当 $a <= ^R b$。
@@ -183,7 +211,8 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   + 存在唯一一个从 $F$ 到 $E$ 的某个截断的同构。
 ]<良序集同构二选一>
 #proof[
-  参见 @bourbaki2007théorie[Ch.III, Sec.2, Th.3]。
+  参见 @bourbaki2007théorie[Ch.III, Sec.2, Th.3]。这个定理的证明需要用到后面才能序数和证明的 Zorn 引理，
+  但是序数和证明那几个有关定理并不需要本定理及其推论。
 ]
 
 #corollary[
@@ -195,6 +224,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   那么 $S=E, T=F$, 并且 $g,f$ 互为逆映射.
 ]
 
+== 序数
 序数是自然数用于排序的那部分功能的推广。从直观上可以把序数定义为良序集之间的同构的等价类，但是这样定义的序数太大而不是集合，
 导致讨论序数的集合时遇到困难。因此采用 von Neumann 给出的定义，把序数定义为小于它的序数构成的良序集：
 #definition[
@@ -298,19 +328,12 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 #proof[
   两个序数同构当且仅当它们相等，因此有了唯一性。
 
-  用超限归纳法可以定义 $X$ 上的函数 $f$ 使得 $f(a) = emptyset$ 这里 $a$ 是 $X$ 当中的最小元素，以及对任意 $x in X$ 有
+  用超限递归可以定义 $X$ 上唯一的函数 $f$ 使得 $f(a) = emptyset$ 这里 $a$ 是 $X$ 当中的最小元素，以及对任意 $x in X$ 有
   #nonum-equation[
-    $ f(x) = { f(y) in alpha | y < x } $
+    $ f(x) = { f(y) | y < x } = union.big_(y < x){f(y)} $
   ]
-  实际上如果对于 $x < a$ 已经定义 $f(x)$ 满足上式，则可以把 $f(a)$ 定义为：
-  #nonum-equation[
-    $ f(a) = union.big_(x < a) f(x) union { f(x) } $
-  ]
-  然后就能验证 $f(a) = {f(y) in alpha | y < a}$，这样 $f$ 就被构造出来了。当 $y < x$ 时显然有 $f(y) in f(x)$。
-  反过来如果 $y lt.not x$，那么有 $y = x$ 或者 $y > x$，不论哪种情况都不会有 $f(y) in f(x)$，否则会出现 $alpha$ 中的无穷递降序列。
-  因此 $y < x$ 当且仅当 $f(y) in f(x)$，这也说明了 $f$ 是单射。
-
-  $f$ 的像显然是传递集，因此 $f$ 的像是序数，并且 $f$ 是唯一一个同构 (@良序集同构二选一)。
+  显然 $y < x$ 当且仅当 $f(y) in f(x)$，这使得 $f$ 的像在 $in$ 下称为良序，以及 $f$ 的像是传递集，因此 $f$ 的像是序数，
+  并且 $f$ 是唯一一个同构，根据超限递归。
 ]
 
 下面讨论序数算数：
@@ -341,8 +364,8 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   如果 $alpha$ 是序数，则必然是下列三种情况之一：
   + $alpha = 0$；
   + 存在序数 $beta$ 使得 $alpha = beta + 1$，即 $alpha$ 是后继序数；
-  + $alpha = sup alpha$，此时称 $alpha$ 是极限序数。
-]
+  + $alpha = union.big_(lambda < alpha) lambda$，此时称 $alpha$ 是极限序数。
+]<序数的三种情况>
 #proof[
   假设 $alpha eq.not 0$。那么注意到 $alpha$ 有最大元素 $beta in alpha$ 当且仅当 
   $beta + 1 subset.eq alpha$ 并且对任意 $x in alpha$ 有 $x <= beta$。
@@ -370,6 +393,81 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   + $alpha dot beta = union.big_(gamma < beta) (alpha dot gamma)$，如果 $beta$ 是极限序数
 ]
 
+超限归纳法和超限递归可以推广到序数上：
+#proposition(title: "序数的超限归纳法")[
+  设 $P(x)$ 是一元谓词公式，如果对任意序数 $alpha$ 都有
+  #nonum-equation[
+    $ ((forall beta < alpha) P(beta)) --> P(alpha) $
+  ]
+  则对每个序数 $alpha$ 都有 $P(alpha)$ 成立。
+]
+#proof[
+  设序数 $alpha$ 使 $P(alpha)$ 不成立，那么集合 $A = {beta in alpha + 1 | not P(beta)}$ 便是 $alpha + 1$ 的非空子集，
+  必然存在一个最小元素 $gamma$，于是 $beta < gamma$ 时，它们不属于 $A$，这说明有 $P(beta)$，于是根据条件有 $P(gamma)$，
+  这和 $gamma in A$ 矛盾。
+]
+
+#proposition(title: "序数的超限递归")[
+  设 $G_1, G_2, G_3$ 给集合 $u$ 指定集合 $G_1(u),G_2(u),G_3(u)$，则对每个序数 $alpha$ 存在唯一集合 $A_alpha$ 使得
+  - $A_0 = G_1(emptyset)$
+  - $A_(alpha + 1) = G_2(A_alpha)$
+  - $A_alpha = G_3({A_beta | beta < alpha})$，这里 $alpha$ 是非零极限序数。
+]
+#proof[
+  这直接来自 @序数的三种情况。
+]
+
+== 选择公理
+在承认 ZF 的前提下，@选择公理[选择公理] 有几个等价命题，其中最出名的便是 Zorn 引理和良序定理。
+
+#theorem(title: "良序定理")[
+  每个集合上都存在良序结构。
+]
+#proof(title: "从选择公理出发证明")[
+  设 $X$ 是集合。为了良序化它，用超限递归构造一个序数序列穷举 $X$。设 $scr(S)$ 是 $X$ 的非空子集的集合，
+  $f$ 是 $scr(S)$ 上的选择函数（存在性通过选择公理保证）。现在，对每个序数 $alpha$，定义
+  + $a_0 = f(X)$
+  + $a_alpha = f(X without {a_lambda | lambda < alpha})$ 如果 $X without {a_lambda | lambda < alpha}$ 非空
+  注意 $lambda < alpha + 1$ 当且仅当 $lambda <= alpha$，因此上面实际上包含了全部的情况。
+  
+  注意到 $a_alpha in X without {a_lambda | lambda < alpha}$ 因此 $a_alpha$ 和 $a_lambda,lambda < alpha$ 都不相等。
+  因此 $alpha$ 与 ${a_lambda | lambda < alpha} subset.eq X$ 一一对应，于是必然存在一个序数 $beta$ 使得
+  $X = {a_lambda | lambda < beta}$，否则 $X$ 会包含所有的序数，就不是集合。这样 $X$ 和 $beta$ 有双射，于是 $X$ 就可以定义良序了。
+]
+
+#theorem(title: "Zorn 引理")[
+  任意非空偏序集 $X$ 当中，如果每个全序子集有上界，那么 $X$ 中存在极大元素。
+]
+#proof(title: "从良序定理出发")[
+  根据良序定理 $X$ 有一良序，因此 $X$ 可以写作 ${a_lambda | lambda < alpha}$ 这种形式。
+  然后我们要构造也尽可能长的全序子集，这样这个全序子集的最大元素就是 $X$ 的极大元素。
+  定义 $A : alpha -> "Pow"(X)$：
+  #nonum-equation[
+    $ A_0 &= emptyset \
+    A_(xi + 1) &= cases(A_xi union {a_xi} "如果" A_xi union {a_xi} "是全序集", A_xi "如果不是") \
+    A_lambda &= union.big_(xi < lambda) A_xi $
+  ]
+  现在 $A_alpha$ 是一个尽可能长的全序子集：假设有全序子集 $T supset.eq A_alpha$，那么对任意 $a_beta in T$，
+  由于 $A_beta subset A_alpha$，我们有 $A_(beta + 1) = A_beta union {a_beta} subset.eq A_alpha$，因此 $a_beta in A_alpha$。
+  由于 $A_alpha$ 的上界 $a$ 一定使得 $A_alpha union {a}$ 是全序集，因此 $a in A_alpha$，也就是说 $a$ 是 $A_alpha$ 的最大值。
+  如果有 $b >= a$，同样道理可得 $b in A_alpha$，这样 $b <= a$，因此 $a = b$ 换句话说 $a$ 是 $X$ 的极大元素。
+]
+
+#proposition[
+  在 ZF 的前提下，如果 Zorn 引理成立，则选择公理成立：
+  - 给定一族非空集合 ${X_i}_(i in I)$，存在也映射 $f: I -> union.big_(i in I) X_i$，使得对任意 $i in I$ 有 $f(i) in X_i$。
+]
+#proof[
+  用 $X$ 表示二元组 $(J,f)$ 构成的偏序集，其中 $J subset I$，而 $f : J -> union.big_(x in I) X_i$ 是映射，使得对任意
+  $i in J$ 有 $f(i) in X_i$。定义 $(J,f) <= (J',f')$ 为 $J subset.eq J'$ 以及 $f = f'|J$。
+  这样显然每个链都有上界。
+
+  于是根据前提，$X$ 有一个极大元 $(J,f)$。断言 $J = I$，否则有 $i_0 in I without J$，于是令 $J' = J union {i_0}$，
+  以及 $f': J' -> union.big_(i in I) X_i$ 使得 $f'|J = f, f'(i_0) in X_i_0$。
+  最后这一步是在 $X_i_0$ 中任取一个元素为 $f'(i_0)$ 的值，这是可以做到的因为 $X_i_0$ 非空。这样 $(J,f) < (J',f')$ 与 $(J,f)$ 是极大元素矛盾，
+  所以 $J = I$ 从而 $f$ 就是我们要的选择函数。
+]
+
 == 基数
 序数用来给对象排序，而基数则是用来给集合比大小。
 
@@ -388,7 +486,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   全体基数构成的真类记为 $bold("Card")$，但是在 ZFC 中不讨论真类，它将在下一章讨论。
 ]
 
-自然数集显然是基数 $aleph_0$ 表示，具有这个基数的集合就是可数集。而每个自然数也是基数，我们称其为有限基数。
+自然数集显然是基数，用 $omega$ 表示，具有这个基数的集合就是可数集。而每个自然数也是基数，我们称其为有限基数。
 所以对于有限集来说，基数和序数是一样的，但是对无限集来说就需要分开讨论了。
 
 前面的直观由以下命题保证：
@@ -396,14 +494,20 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   对任意集合 $X$，存在唯一基数 $alpha$ 和它等势，也就是满足这个条件的最小序数。这个 $alpha$ 称为 $X$ 的*势*, 记为 $abs(X)$.
 ]
 #proof[
-    根据良序定理，$X$ 上有良序，然后根据 @良序集和序数同构，存在一个序数 $alpha$ 和 $X$ 同构，特别地和 $X$ 双射。集合
+    根据良序定理，$X$ 上有良序，然后根据 @良序集和序数同构，存在一个序数 $gamma$ 和 $X$ 同构，特别地和 $X$ 双射。集合
     #nonum-equation[
-      $ A := { beta in alpha | abs(X) = abs(beta)  } $
+      $ A := { beta in gamma + 1 | abs(X) = abs(beta)  } $
     ]
-    如果是空集，则 $alpha$ 就是最小的和 $X$ 等势的序数。如果 $A$ 非空，则它是良序集 $alpha$ 的子集，
-    必然存在一个最小序数 $alpha'$ 和 $X$ 等势。因此我们证明了存在一个最小的和 $X$ 等势的序数 $alpha$，而唯一性显然。
+    是序数 $gamma + 1$ 的非空子集，因此有最小元素 $alpha$。显然所有和 $X$ 等势的序数都不能小于 $alpha$，
+    也就是说它就是和 $X$ 等势的最小序数。
 
     如果 $alpha$ 能和比自己小的序数 $beta$ 建立双射，则它也和 $X$ 等势，这与 $alpha$ 是最小的矛盾，因此 $alpha$ 是基数。
+]
+
+由于任何序数组成的集合都是良序集，这意味着集合的势可以进行比较。
+
+#theorem(title: "Cantor-Bernstein-Schroeder 定理")[
+  设 $A,B$ 是集合，如果有单射 $f: A -> B$ 和单射 $g: B -> A$，那么存在双射 $h: A -> B$。
 ]
 
 #definition(title: "加法和乘法")[
@@ -417,3 +521,83 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 值得注意的一个情况是 $Y = 2$ 时，这里 $2$ 定义为 ${0,1}$。那么从 $X$ 到 $2$ 的映射实际上是子集指示函数，
 每个映射和 $X$ 的一个子集对应，于是 $2^X$ 实际上是 $X$ 的幂集。
+
+#definition(title: "后继基数和极限基数")[
+  对序数 $alpha$，用 $alpha^+$ 表示大于 $alpha$ 的最小基数，称为*后继基数*，不是后继基数的称为极限基数。
+]
+
+我们需要说明后继序数确实存在：
+#lemma(title: "Hartogs 数")[
+  对任意集合 $X$，下列构造
+  #nonum-equation[
+    $ alpha = {beta in bold("Ord") | exists i: beta arrow.r.hook X} $
+  ]
+  是集合，并且还是不与 $X$ 等势的最小序数。
+]
+#proof[
+  首先根据集合论公理 $"Pow"(X times X)$ 是集合，因此根据 @分类公理 $X$ 上的良序关系构成集合，
+  进而根据 @良序集和序数同构，每个 $X$ 上的良序和唯一一个序数同构，因此和 $X$ 等势的序数构成集合（注意序数的自同构只有单位映射），
+  而这些序数的并就是 $alpha$。
+
+  $alpha$ 是传递集：设 $beta in alpha$，这说明 $alpha$ 到 $X$ 有单射，而 $gamma in beta$ 根据
+  @序数元素是序数以及从属是包含 可知有包含关系 $gamma subset beta$，这样 $gamma$ 到 $X$ 也有单射了，因此 $gamma in alpha$。
+  $alpha$ 是序数构成的集合，因此是良序集，这样 $alpha$ 就是序数了。
+
+  不存在从 $alpha$ 到 $X$ 的单射，否则 $alpha in alpha$ 会出现无穷递降序列。
+  最后 $alpha$ 是不存在到 $X$ 的单射的最小序数，因为比 $alpha$ 小的序数都属于 $alpha$，也就是说存在到 $X$ 的单射。
+]
+
+根据上述引理，对每个序数 $alpha$，都存在一个最小的不与其等势的序数 $alpha'$。
+这个 $alpha'$ 是基数，因为比它小的序数都和 $alpha$ 等势了，因此不可能和 $alpha'$ 等势，于是这个 $alpha'$ 就是 $alpha$ 的后继基数。
+
+现在我们可以建立从序数到基数的对应了：
+
+#proposition(title: "阿列夫函数")[
+  对每个序数 $alpha$，有唯一基数 $aleph_alpha$，按照如下方式超限递归构造：
+  + $aleph_0 = omega$
+  + $aleph_(alpha + 1) = (aleph_alpha)^+$
+  + $aleph_alpha = union.big_(gamma < alpha) aleph_gamma$，这里 $alpha$ 是极限序数
+
+  并且这个对应是双射。
+]
+#proof[
+  构造过程只有极限序数的情况需要说明一下如此定义的确实是基数：首先根据 @最小上界序数， 
+  $union.big_(gamma < alpha) aleph_gamma$ 是序数，比它小的序数 $beta$ 必然比某个 $aleph_gamma$ 小，
+  而 $beta$ 不能和 $aleph_gamma$ 建立双射。如果 $beta$ 能和整个并集建立双射，意味着这个 $aleph_gamma$ 有一个到更小的序数 $beta$ 的单射，
+  于是根据 Cantor-Bernstein-Schroeder 定理，$alpha_gamma$ 和 $beta$ 等势，这是不可能的。
+
+  单射：当 $alpha < beta$ 时，用超限归纳法证明 $aleph_alpha < aleph_beta$。设 $P(beta)$ 是谓词
+  #nonum-equation[
+    $ P(beta) := (forall alpha < beta) aleph_alpha < aleph_beta $
+  ]
+  如果对任意 $gamma < beta$ 都有 $P(gamma)$ 成立，则 $P(beta)$ 成立：
+  - $beta = gamma + 1$ 是后继，则如果 $alpha = gamma$ 就有 $aleph_alpha < (aleph_gamma)^+ = aleph_beta$，如果 $alpha < gamma$ 则有 $aleph_alpha < aleph_gamma <(aleph_gamma)^+ = aleph_beta$。
+  - $beta$ 是极限序数，此时 $alpha + 1 < beta$，于是 $aleph_(alpha + 1) in {aleph_gamma | gamma <beta}$，进而 $aleph_(alpha + 1) subset aleph_beta$，因此 $aleph_alpha < aleph_beta$。
+  这样就证明了 $alpha mapsto aleph_alpha$ 是单射。
+
+  假设有一个最小的无限基数 $kappa$ 使得对任意 $alpha$ 都有 $aleph_alpha eq.not kappa$，则考虑集合
+  #nonum-equation[
+    $ S = {lambda in kappa | lambda in bold("ICn")} $
+  ]
+  这里 $bold("ICn")$ 表示无限基数，于是 $S$ 是 $kappa$ 的非空子集，里面的每个基数都有形式 $aleph_beta$。
+  我们刚刚证明了单射性，也就是说每个这种形式的基数 $aleph_beta$ 都只有唯一一个序数 $beta$ 与之对应，
+  这样利用 @替换公理 得到有一个集合
+  #nonum-equation[
+    $ A = {gamma in bold("Ord") | aleph_gamma in S} $
+  ]
+  这个集合是传递集：设有 $gamma in beta in A$，则 $beta in A$ 推得出 $aleph_beta in S$；
+  而 $gamma in beta$ 意味着 $aleph_gamma < aleph_beta in kappa$，因此根据序数传递性就得到 $aleph_gamma in kappa$，进而 $gamma in A$。
+  这样 $A$ 是由序数构成的传递集，因此也是序数，记为 $beta$。这样 $A = beta$ 中的元素就是小于 $beta$ 的序数，这样有
+  #nonum-equation[
+    $ S = {aleph_gamma | gamma < beta} $
+  ]
+  根据序数上确界，$aleph_beta <= kappa$。如果 $aleph_beta < kappa$，则 $aleph_beta in S$，进而 $beta in A = beta$ 这是不可能的。
+  因此 $aleph_beta = kappa$，然而这也是不可能的因为 $kappa$ 不能写为这种形式。这样我们就导出了矛盾，证明了 $alpha mapsto aleph_alpha$ 是满射。
+]
+
+#proposition(title: "连续统假设")[
+  - $2^(aleph_0) = aleph_1$，等价描述是不存在基数位于自然数和实数的势之间。
+  另外还有*广义连续统假设*
+  - 对任意序数 $alpha$，$2^(aleph_alpha) = aleph_(alpha + 1)$.
+]
+这个命题与 ZFC 公理独立，肯定的相容性由 Kurt Godel 于 1940 年通过他的可构造宇宙来证明，否定的相容性由 Paul Cohen 于 1963 年通过力迫法来证明。
