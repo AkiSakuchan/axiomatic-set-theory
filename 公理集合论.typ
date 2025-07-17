@@ -508,7 +508,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 #theorem(title: "Cantor-Bernstein-Schroeder 定理")[
   设 $A,B$ 是集合，如果有单射 $f: A -> B$ 和单射 $g: B -> A$，那么存在双射 $h: A -> B$。
-]
+]<CBS定理>
 
 #definition(title: "加法和乘法")[
   基数加法定义为 $sum_(i in I) abs(X_i) = abs(union.big.sq_(i in I) X_i)$。
