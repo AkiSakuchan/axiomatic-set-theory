@@ -23,14 +23,30 @@ Grothendieck 宇宙是 ZFC 中允许的一个集合 $cal(U)$，但它给出了 Z
 ]
 这个定义来自 @SGA4，其他作者有些会要求 $emptyset in cal(U)$ 或者 $NN in cal(U)$ 以排除较小的集合。$cal(U)$ 中的元素称为 $cal(U)$-集合，无歧义时简称为集合。
 
-下列性质显然：
+基本性质：
 #proposition[
-  - 如果 $x in cal(U)$ 则集合 ${x} in cal(U)$。
-  - 如果 $x$ 是 $y in cal(U)$ 的子集，那么 $x in cal(U)$。
-  - 如果 $x,y in cal(U)$，则二元组 $(x,y) = {{x,y},x} in cal(U)$。
-  - 如果 $x,y in cal(U)$，那么并集 $x union y$ 和乘积 $x times y$ 都是 $cal(U)$ 的元素。特别地，所有 $cal(U)$ 中元素上的二元关系以及它们之间的函数都是 $cal(U)$ 的元素。
-  - 如果 $(x_i)_(i in I)$ 是一族集合，每个集合 $x_i in cal(U)$ 以及指标集 $I in cal(U)$，那么 $product_(i in I) x_i in cal(U)$。
+  + 如果 $x in cal(U)$ 则集合 ${x} in cal(U)$。
+  + 如果 $x$ 是 $y in cal(U)$ 的子集，那么 $x in cal(U)$。
+  + 如果 $x in cal(U)$，则 $x$ 的商集 $y$ 是 $cal(U)$ 的元素。
+  + 如果 $x,y in cal(U)$，则二元组 $(x,y) = {{x,y},x} in cal(U)$，更一般的多元组也是 $cal(U)$ 的元素。
+  + 如果 $x,y in cal(U)$，那么并集 $x union y$ 和乘积 $x times y$ 都是 $cal(U)$ 的元素。
+  + 所有 $cal(U)$ 中元素上的二元关系，两个元素之间的映射以及它们的集合都是 $cal(U)$ 的元素。
+  + 如果 $(x_i)_(i in I)$ 是一族集合，每个集合 $x_i in cal(U)$ 以及指标集 $I in cal(U)$，那么乘积 $product_(i in I) x_i in cal(U)$ 和 不交并 $union.sq.big_(i in I) x_i in cal(U)$。
+  + 任意个非空宇宙的交还是宇宙。
 ]<Grothendieck宇宙的基本性质>
+#proof[
+  这里只简要说明：2，根据定义可得 $"Pow"(x) in cal(U)$，因此从传递性可得 $y in cal(U)$。
+
+  3，商集实际上是 $x$ 的划分，更具体说是一系列 $x$ 子集的集合，也就是 $"Pow"(x)$ 的子集，于是根据第 2 条就能得到。
+
+  5，对任意集合 $x in cal(U)$，可得 $"Pow"(x)$ 进而 ${emptyset,x}$ 是 $cal(U)$ 的元素，因此 $2 in cal(U)$。于是两集合的并封闭。
+  剩下的通过 ${x'} times y = union.big_(y' in y)(x',y') in cal(U)$，以及 $x times y = union.big_(x' in x){x'} times y$ 得到。
+
+  6，$x,y$ 之间的二元关系实质是 $x times y in cal(U)$ 的一个子集；从 $x$ 到 $y$ 的映射是一种二元关系；
+  而 $x$ 到 $y$ 的函数的集合是 $"Pow"(x times y)$ 的子集。
+
+  7，不交并是 $union.big_(i in I) x_i times I in cal(U)$ 的一个子集，而乘积是一个从 $I$ 到 $union.big_(i in I) x_i$ 的映射。
+]
 
 #theorem[
   设 $cal(U)$ 是一个 Grothendieck 宇宙，且 $NN in cal(U)$，则 $cal(U)$ 是 ZFC 的一个模型。
@@ -75,11 +91,116 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
 ]
 
 因此 Grothendieck 提出了一条额外的公理来保证这种宇宙的存在：
-#axiom(title: "宇宙公理")[
-  对任意集合 $s$，都存在一个 Grothendieck 宇宙 $cal(U)$ 包含 $s$，也就是 $s in cal(U)$。
-]
+#axiom(title: "Grothendieck 宇宙公理")[
+  / (UA): 对任意集合 $s$，都存在一个 Grothendieck 宇宙 $cal(U)$ 包含 $s$，也就是 $s in cal(U)$。
+]<Grothendieck宇宙公理>
 
 后面将证明每个 Grothendieck 都是一种 von Neumann 层级，反之亦然。
 而 von Neumann 层级又是通过强不可达基数来定义的，因此不同的 Grothendieck 宇宙对应不同的不可达基数。
+
+== 不可达基数
+每个 Grothendieck 宇宙实际上对应一个不可达基数。在具体说明这个之前，先给出几个关于基数的结论。
+
+#proposition[
+  如果 $X subset cal(U)$ ，并且它的势不大于$cal(U)$ 中某个元素的势，那么 $X in cal(U)$。
+]
+#proof[
+  假设 $abs(X) <= abs(J)$，这里 $J in cal(U)$。那么存在一个 $J$ 的子集 $I$ 和从 $I$ 到 $X$ 的双射 $i mapsto x_i$。
+  那么显然有
+  #nonum-equation[
+    $ X = union.big_(i in I) {x_i} $
+  ]
+  然后根据 @Grothendieck宇宙的基本性质 可知 $I$ 和 $x_i$ 都是 $cal(U)$ 的元素，于是 $X in cal(U)$。
+]
+
+#corollary[
+  如果 $cal(U)$ 非空，那么它的任意有限子集都是 $cal(U)$ 的元素，并且对任意有限基数 $cal(U)$ 都包含一个与之等势的集合。
+]
+#proof[
+  设 $x_0 in cal(U)$，那么定义 $x_(n+1) = "Pow"(x_n)$，于是每个 $x_n in cal(U)$。考虑到 $abs(x_(n+1)) = 2^abs(x_n)$，
+  因此 $cal(U)$ 含有与任意大有限基数等势的集合。
+]
+
+#definition(title: "正向集，共尾集，共尾类")[
+  - *正向集(directed set)*是一个偏序集，其中任意两个元素都有上界。
+  - 偏序集 $A$ 的*共尾子集(cofinal subset)*是一个子集 $B$ 使得对任意 $x in A$ 都存在 $y in B$ 满足 $x <= y$。
+  - 偏序集 $A$ 的*共尾类(cofinality)*是 $A$ 的共尾子集的势当中的最小者，记为 $"cf"(A)$。
+]
+
+#example[
+  - 一个集合的子集簇在包含关系下构成正向集，这里 $A <= B$ 定义为 $B subset.eq A$。任意全序集都是正向集。
+  - 自然数集是实数集的一个共尾子集。自然数集的子集 $A$ 是是它的共尾子集当且仅当 $A$ 是无限子集。有最大元的偏序集的共尾子集必须包含这个最大元。
+  - 显然自然数集的共尾类是 $aleph_0$，或者说 $aleph_0$ 的共尾类就是 $aleph_0$，因此 $aleph_0$ 是正规基数。
+]
+
+#definition(title: "正则基数")[
+  无限基数 $kappa$ 如果满足 $"cf"(kappa) = kappa$，则称为*正则基数(regular cardinal)*，否则称为*奇异基数*。
+]
+
+#proposition(title: "等价定义")[
+  设 $kappa$ 为基数，则下列命题等价：
+  + $kappa$ 是正则基数
+  + $kappa$ 不能写成 $kappa$ 个小于 $kappa$ 的基数和
+  + 如果 $(alpha_i)_(i in I)$ 是一簇基数并且每个 $alpha_i < kappa$ 以及 $abs(I) < kappa$，那么 $sum_(i in I) alpha_i < kappa$
+]
+#proof[
+  显然后两条等价。现在假设 $kappa$ 是正则基数。
+]
+
+#definition(title: "不可达基数")[
+  基数 $kappa$ 称为*不可达基数(inaccessible cardinal)*，有时候会更精确地称为*强不可达基数*，指的是它满足：
+  - $kappa$ 是正则基数
+  - 对任意基数 $lambda < kappa$ 都有 $2^lambda < kappa$
+]
+显然 $aleph_0$ 是第一个不可达基数的例子。
+
+#lemma[
+  设 $A$ 是基数的集合，那么 $sup A$ 也是基数。
+]
+#proof[
+  首先根据 @最小上界序数，$sup A$ 是序数。假设 $A$ 中有最大基数 $beta$，那么 $sup A = beta$ 还是基数。
+  假设 $A$ 中没有最大基数，那么对任意小于 $sup A$ 的序数 $gamma$，都存在 $A$ 中的基数 $beta$ 满足 $gamma < beta < sup A$。
+  此时 $gamma$ 不可能和 $sup A$ 建立双射，否则将有从 $beta$ 到 $gamma$ 的单射，
+  结合原本从 $gamma$ 出发到 $beta$ 的单射以及 @CBS定理 就可以在 $beta$ 和 $gamma$ 之间建立双射，但 $beta$ 是基数，这是不可能的。
+  因此 $sup A$ 是基数。
+]
+
+现在设 $cal(U)$ 是 Grothendieck 宇宙，那么 $x in cal(U)$ 是它的子集，因此 $abs(x) <= abs(cal(U))$。于是
+${abs(x) : x in cal(U)}$ 是一个基数集合，这样就有基数：
+#nonum-equation[
+  $c(cal(U)) = sup_(x in cal(U)) abs(x)$
+]
+这个基数具有一些性质。首先，对任意小于它的基数 $lambda$，都存在一个 $x in cal(U)$ 并且 $abs(x) = lambda$；
+实际上根据上确界的定义，肯定存在一个元素 $y in cal(U)$ 使得
+#nonum-equation[
+  $lambda <= abs(y) <= c(cal(U))$
+]
+因此 $lambda$ 必然和 $y$ 的某个子集 $x$ 等势，而 $x in cal(U)$ 根据 @Grothendieck宇宙的基本性质。
+而每个 $x in cal(U)$ 必然有 $"Pow"(x) in cal(U)$，所以
+#nonum-equation[
+  $abs(x) < 2^abs(x) = abs("Pow"(x)) <= c(cal(U))$
+]
+因此对任意小于 $c(cal(U))$ 的基数 $lambda$，取 $x in cal(U)$ 使其势为 $lambda$；而 $"Pow"(x) in cal(U)$ 于是
+$abs("Pow"(x)) < c(cal(U))$，这样 $2^lambda < c(cal(U))$。
+
+如果 $(alpha_i)_(i in I)$ 是小于 $c(cal(U))$ 的基数组成的集合，并且 $abs(I) < c(cal(U))$，那么根据上面的推理可以选择
+$x_i in cal(U)$ 使得 $abs(x_i) = alpha_i$，以及某个 $cal(U)$ 中的与 $I$ 等势的，仍然记为 $I$ 的集合，用这个集合做指标集就有
+#nonum-equation[
+  $union.big.sq_(i in I) x_i in cal(U)$
+]
+这个元素的势就是 $sum_(i in I) alpha_i$，并且小于 $c(cal(U))$，因此 $c(cal(U))$ 是不可达基数。
+也就是说 Grothendieck 宇宙的存在性蕴含不可达基数的存在性，并且 @Grothendieck宇宙公理[公理 (UA)] 蕴含
+/ (UA'): 所有基数都严格小于一个不可达基数
+
+反过来
+#theorem[
+  公理 (UA') 蕴含 Grothendieck 宇宙公理 (UA)
+]
+#proof[
+  设 $A$ 是一个集合，我们将按照下面步骤构造一个拥有 $A$ 的 Grothendieck 宇宙 $cal(U)$。
+  #remark[
+    证明对任意 $x in cal(U)$ 都有 $abs(x) < c$ 时，实际上是用超限归纳法证明对任意 $alpha in I$，$B_alpha$ 中的元素的势小于 $c$。
+  ]
+]
 
 == von Neumann 宇宙
