@@ -552,8 +552,8 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
 
 现在我们可以建立从序数到基数的对应了：
 
-#proposition(title: "阿列夫函数")[
-  对每个序数 $alpha$，有唯一基数 $aleph_alpha$，按照如下方式超限递归构造：
+#proposition(title: "Aleph 数")[
+  对每个序数 $alpha$，有唯一基数 $aleph_alpha$，称为 *Aleph 数*，按照如下方式超限递归构造：
   + $aleph_0 = omega$
   + $aleph_(alpha + 1) = (aleph_alpha)^+$
   + $aleph_alpha = union.big_(gamma < alpha) aleph_gamma$，这里 $alpha$ 是极限序数
@@ -607,7 +607,7 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   #nonum-equation[
     $ kappa + lambda = kappa lambda = max{kappa,lambda}$
   ]
-]
+]<基数运算性质>
 #proof[
   不妨设 $kappa <= lambda$，则有
   #nonum-equation[
