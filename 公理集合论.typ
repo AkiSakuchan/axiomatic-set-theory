@@ -601,3 +601,35 @@ $A$，都有集合 $B$ 使得 $B$ 中的元素都是 $A$ 中元素经过 $F$ 作
   - 对任意序数 $alpha$，$2^(aleph_alpha) = aleph_(alpha + 1)$.
 ]
 这个命题与 ZFC 公理独立，肯定的相容性由 Kurt Godel 于 1940 年通过他的可构造宇宙来证明，否定的相容性由 Paul Cohen 于 1963 年通过力迫法来证明。
+
+#proposition[
+  设 $kappa, lambda$ 是无限基数，则
+  #nonum-equation[
+    $ kappa + lambda = kappa lambda = max{kappa,lambda}$
+  ]
+]
+#proof[
+  不妨设 $kappa <= lambda$，则有
+  #nonum-equation[
+    $lambda <= kappa + lambda <= 2lambda <= kappa lambda <= lambda^2$
+  ]
+  因此只需证明 $lambda^2 <= lambda$ 即可。我们前面已经证明 $alpha mapsto aleph_alpha$ 是从 $bold("Ord")$ 到 $bold("Card")$ 的双射，
+  所以我们设 $lambda = aleph_alpha$ 并对 $alpha$ 做超限归纳。$alpha = 0$ 时已知，实际上就是可数集和可数集的乘积还是可数集。
+
+  假设对每个序数 $beta < alpha$ 都有 $aleph_beta^2 <= aleph_beta$。因此对每个小于 $lambda = aleph_alpha$ 的序数 $gamma$ 都有
+  $|gamma|^2 = |gamma|$。 现在给 $lambda^2$ 赋予一个序关系：
+  #nonum-equation[
+    $(a,b) < (c,d) <==> (max{a,b}, a, b) < (max{c,d}, c, d)$
+  ]
+  后者采用 $lambda^3$ 的字典序，而 $lambda^3$ 的字典序是良序，因此我们定义在 $lambda^2$ 的这个序也是良序。可以验证
+  #nonum-equation[
+    $lambda^2_(<=(a,a)) = {(c,d) in lambda^2 | (c,d) <= (a,a)} = {c in lambda | c <= a }^2 = lambda_(<=a)^2$
+  ]
+  注意到 $lambda_(<=a)$ 是小于 $lambda$ 的序数，因此根据归纳假设以及序数乘法的定义有：
+  #nonum-equation[
+    $|lambda_(<=(a,a))^2| = |lambda_(<=a)^2| = |lambda_(<=a)|^2 = |lambda_(<=a)| < lambda$
+  ]
+  于是 $lambda^2_(<=(a,a))$ 的序型小于 $lambda$，否则 $lambda$ 有到 $lambda^2_(<=(a,a))$ 的单射，与上式矛盾。然后注意到
+  $lambda^2$ 的序型是 $lambda^2_(<=(a,a))$ 序型的上确界，因为 $lambda^2_(<=(a,a))$ 是一个共尾子集。
+  因此 $lambda^2$ 的序型必然小于等于 $lambda$，那么 $lambda^2$ 的基数必然也小于等于 $lambda$，或者可以写作 $aleph_alpha^2 <= aleph_alpha$。
+]
