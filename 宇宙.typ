@@ -295,3 +295,20 @@ $x_i in cal(U)$ 使得 $abs(x_i) = alpha_i$，以及某个 $cal(U)$ 中的与 $I
 ]
 
 == von Neumann 宇宙
+von Neumann 层级 $V_kappa$ 像 Grothendieck 宇宙一样是一个非常大的集合，当 $kappa$ 是不可达基数时，$V_kappa$ 也可以提供一个小型的 ZFC 模型。
+而全体 von Neumann 层级组成的类就称为 von Neumann 宇宙，这个宇宙实际上是 ZFC 集合论中所有集合构成的类。
+
+#definition(title: "von Neumann 层级")[
+  对序数 $alpha$ 用超限递归定义集合 $V_alpha$：
+  - $V_alpha = emptyset$
+  - $V_(alpha+1) = "Pow"(V_alpha)$
+  - 对极限序数 $alpha$ 定义 $V_alpha = union.big_(beta < alpha) V_beta$
+  由于 $y subset.eq x$ 推得出 $"Pow"(y) subset.eq "Pow"(x)$，于是可以用超限归纳法证明对
+  $beta <= alpha$ 有 $V_beta subset.eq V_alpha$。这些 $V_alpha$ 称为 *von Neumann 层级(hierarchy)*。
+
+  所有 von Neumann 层级构成的类称为 *von Neumann 宇宙*，记为 $bold(V)$。
+]
+
+#lemma[
+  如果 ZFC 相容，$kappa$ 是不可达基数，那么 $V_kappa$ 是 ZFC 的一个模型。
+]
