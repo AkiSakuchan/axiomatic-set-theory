@@ -172,6 +172,11 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
   $alpha_i = |S_i|, i in beta$ 是不符合 2 的条件的一簇基数。
 ]
 
+#corollary[
+  设 $kappa$ 为基数，则 $kappa^+$ 为正则基数。
+]
+实际上由 $kappa^2 = kappa$ 可得不超过 $kappa$ 个势不大于 $kappa$ 的基数之和不大于 $kappa$。
+
 #definition(title: "不可达基数")[
   不可数基数 $kappa$ 称为*不可达基数(inaccessible cardinal)*，有时候会更精确地称为*强不可达基数*，指的是它满足：
   - $kappa$ 是正则基数
