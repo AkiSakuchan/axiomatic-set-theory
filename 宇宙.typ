@@ -73,7 +73,7 @@ Grothendieck 宇宙是 ZFC 中允许的一个集合 $cal(U)$，但它给出了 Z
   而@配对公理，@并集公理，@幂集公理 直接来自 Grothendieck 宇宙的定义。
   @无穷公理 来自 $NN in cal(U)$。@选择公理 来自 $cal(U)$ 中集合族的选择函数存在性以及 @Grothendieck宇宙的基本性质。
 
-  对于 @替换公理，若二元谓词 $cal(P)$ 满足对任意 $x in cal(U)$ 都有唯一 $y in cal(U)$，我们就可以定义函数
+  对于 @替换公理，若二元谓词 $cal(P)$ 满足对任意 $x in cal(U)$ 都有唯一 $y in cal(U)$ 使得 $cal(P)(x,y)$，我们就可以定义函数
   $F : cal(U) -> cal(U)$ 使得 $F(x)$ 是唯一的 $y$ 使得 $cal(P)(x,y)$。
   这样对任意 $A in cal(U)$，通过替换公理得到的 $B$ 实际上可以表示为
   #nonum-equation[
@@ -92,14 +92,13 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
 
 因此 Grothendieck 提出了一条额外的公理来保证这种宇宙的存在：
 #axiom(title: "Grothendieck 宇宙公理")[
-  / (UA): 对任意集合 $s$，都存在一个 Grothendieck 宇宙 $cal(U)$ 包含 $s$，也就是 $s in cal(U)$。
+  / (UA): 对任意集合 $s$，都存在一个 Grothendieck 宇宙 $cal(U)$ 使得 $s in cal(U)$。
 ]<Grothendieck宇宙公理>
 
-后面将证明每个 Grothendieck 都是一种 von Neumann 层级，反之亦然。
-而 von Neumann 层级又是通过强不可达基数来定义的，因此不同的 Grothendieck 宇宙对应不同的不可达基数。
+后面将证明这个公理等价于不可达基数总是存在。
 
 == 不可达基数
-每个 Grothendieck 宇宙实际上对应一个不可达基数。在具体说明这个之前，先给出几个关于基数的结论。
+每个 Grothendieck 宇宙实际可以通过一个不可达基数来构造。在具体说明这个之前，先给出几个关于基数的结论。
 
 #proposition[
   如果 $X subset cal(U)$ ，并且它的势不大于$cal(U)$ 中某个元素的势，那么 $X in cal(U)$。
@@ -134,7 +133,7 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
 ]
 
 #definition(title: "正则基数")[
-  无限基数 $kappa$ 如果满足 $"cf"(kappa) = kappa$，则称为*正则基数(regular cardinal)*，否则称为*奇异基数*。
+  无限基数 $kappa$ 如果满足 $"cf"(kappa) = kappa$，则称为*正则基数(regular cardinal)*，否则称为*奇异基数(singular cardinal)*。
 ]
 
 #proposition(title: "等价定义")[
@@ -142,7 +141,7 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
   + $kappa$ 是正则基数
   + $kappa$ 不能写成少于 $kappa$ 个小于 $kappa$ 的基数和
   + 如果 $(alpha_i)_(i in I)$ 是一簇基数并且每个 $alpha_i < kappa$ 以及 $abs(I) < kappa$，那么 $sum_(i in I) alpha_i < kappa$
-]
+]<正则基数等价定义>
 #proof[
   显然后两条等价。现在假设 $kappa$ 是正则基数，并且有一簇基数 $(alpha_i)_(i in I)$ 符合 3 的条件。
   给 $I$ 赋予良序，设 $I$ 和序数 $alpha$ 同构，并且把它们等同起来。于是我们就是要证明 $sum_(i in alpha) alpha_i < kappa$。
@@ -161,6 +160,8 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
   #nonum-equation[
     $S_i = {x in kappa | x <= f(i) and forall j in i, f(j) < x}$
   ]
+  于是 $kappa = union.big_(i in beta) S_i$ 并且还是不交并，同时我们也有 $|S_i| < kappa$，因此
+  $alpha_i = |S_i|, i in beta$ 是不符合 2 的条件的一簇基数。
   #remark[
     这个 $S_i$ 的构造直观上是 $kappa$ 的一个右闭左开区间，右边是 $f(i)$。对任意 $x in S_i$，$f(i)$ 是 $Z$ 中大于等于 $x$ 的最小者。
     所以如果更一般的，我们知道 $Z = NN$ 是 $RR$的共尾子集，设 $beta$ 是自然数集，那么 $S_i = (i-1, i]$ 当 $i>0$，而
@@ -168,8 +169,6 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
 
     显然对于 $i eq.not j$ 有 $S_i inter S_j = emptyset$。
   ]
-  于是 $kappa = union.big_(i in beta) S_i$ 并且还是不交并，同时我们也有 $|S_i| < kappa$，因此
-  $alpha_i = |S_i|, i in beta$ 是不符合 2 的条件的一簇基数。
 ]
 
 #corollary[
@@ -194,22 +193,22 @@ Grothendieck 宇宙提供了 ZFC 的一个模型，因此证明了它的一致�
   因此 $sup A$ 是基数。
 ]
 
-现在设 $cal(U)$ 是 Grothendieck 宇宙，那么 $x in cal(U)$ 是它的子集，因此 $abs(x) <= abs(cal(U))$。于是
+现在设 $cal(U)$ 是包含 $NN$ 的 Grothendieck 宇宙，那么 $x in cal(U)$ 是它的子集，因此 $abs(x) <= abs(cal(U))$。于是
 ${abs(x) : x in cal(U)}$ 是一个基数集合，这样就有基数：
 #nonum-equation[
   $c(cal(U)) = sup_(x in cal(U)) abs(x)$
 ]
-这个基数具有一些性质。首先，对任意小于它的基数 $lambda$，都存在一个 $x in cal(U)$ 并且 $abs(x) = lambda$；
+这个基数是不可数基数，更进一步还是不可达基数。首先，对任意小于它的基数 $lambda$，都存在一个 $x in cal(U)$ 并且 $abs(x) = lambda$；
 实际上根据上确界的定义，肯定存在一个元素 $y in cal(U)$ 使得
 #nonum-equation[
   $lambda <= abs(y) <= c(cal(U))$
 ]
 因此 $lambda$ 必然和 $y$ 的某个子集 $x$ 等势，而 $x in cal(U)$ 根据 @Grothendieck宇宙的基本性质。
-而每个 $x in cal(U)$ 必然有 $"Pow"(x) in cal(U)$，所以
+每个 $x in cal(U)$ 必然有 $"Pow"(x) in cal(U)$，所以
 #nonum-equation[
   $abs(x) < 2^abs(x) = abs("Pow"(x)) <= c(cal(U))$
 ]
-因此对任意小于 $c(cal(U))$ 的基数 $lambda$，取 $x in cal(U)$ 使其势为 $lambda$；而 $"Pow"(x) in cal(U)$ 于是
+因此对任意小于 $c(cal(U))$ 的基数 $lambda$，可以取 $x in cal(U)$ 使其势为 $lambda$；而 $"Pow"(x) in cal(U)$ 于是
 $abs("Pow"(x)) < c(cal(U))$，这样 $2^lambda < c(cal(U))$。
 
 如果 $(alpha_i)_(i in I)$ 是小于 $c(cal(U))$ 的基数组成的集合，并且 $abs(I) < c(cal(U))$，那么根据上面的推理可以选择
@@ -227,9 +226,66 @@ $x_i in cal(U)$ 使得 $abs(x_i) = alpha_i$，以及某个 $cal(U)$ 中的与 $I
 ]
 #proof[
   设 $A$ 是一个集合，我们将按照下面步骤构造一个拥有 $A$ 的 Grothendieck 宇宙 $cal(U)$。
-  #remark[
-    证明对任意 $x in cal(U)$ 都有 $abs(x) < c$ 时，实际上是用超限归纳法证明对任意 $alpha in I$，$B_alpha$ 中的元素的势小于 $c$。
+
+  首先通过递归定义集合序列 $(A_n)_(n in NN)$：
+  - $A_0 = A$
+  - $A_(n+1) = A_n union union.big A_n$
+  
+  现在定义 $B = union.big_(n=0)^infinity A_n$，又设 $kappa$ 是大于 $|B|$ 的不可达基数。
+
+  现在用超限递归定义一簇集合 $(B_alpha)_(alpha < kappa)$：
+  $ B_0 &= B \
+    B_(alpha + 1) &= B_alpha union "Pow"(B_alpha) \
+    B_alpha &= union.big_(beta < alpha) B_beta "如果" alpha "是极限序数"
+  $<B_alpha的定义>
+  
+  现在设 $cal(U) = union.big_(alpha < kappa) B_alpha$，我们将证明 $cal(U)$ 就是我们希望的 Grothendieck 宇宙。
+
+  首先 $A in cal(U)$，这是因为 $A = A_0 subset B=B_0$，因此 $A in B_1 subset cal(U)$。
+
+  现在我们证明对任意 $alpha < kappa$ 都有
+  $ |B_alpha| < kappa $<B_alpha小于kappa>
+  这可以通过超限归纳法证明：$|B_0| < kappa$ 是已知的。如果 $|B_alpha| < kappa$，那么根据 $kappa$ 是不可达基数就有
+  $|B_(alpha + 1)| <= |B_alpha| + |"Pow"(B_alpha)| = |B_alpha| + 2^abs(B_alpha) <= kappa + kappa = kappa$。
+  如果 $alpha$ 是极限序数，并且对任意 $beta < alpha$ 都有 $|B_beta|<kappa$，那么考虑到 $alpha < kappa$，于是根据 @正则基数等价定义 就有
+  #nonum-equation[
+    $|B_alpha| = abs(union.big_(beta in alpha) B_beta) <= sum_(beta in alpha) |B_beta| < kappa$
   ]
+  这样就证明了 @B_alpha小于kappa。通过这个式子就可以证明对任意 $x in cal(U)$ 有
+  $ |x| < kappa $<U元素小于kappa>
+
+  我们将用超限归纳法证明对任意 $alpha < kappa$，$B_alpha$ 中元素的势小于 $kappa$。
+  当 $alpha = 0$ 时，$x in B_0 = B$ 蕴含着存在正整数 $n$ 使得 $x in A_n$，于是 $x subset A_(n+1) subset B$，这样就有 $|x| <= |B| < kappa$。
+  如果 $B_alpha$ 的元素的势小于 $kappa$，那么当 $x in B_(alpha + 1)$ 时有 $x in B_alpha$ 或者 $x subset B_alpha$，对于前者由归纳假设，对于后者由 @B_alpha小于kappa，都可得 $|x| < kappa$。
+  如果 $alpha$ 是极限序数，并且对任意 $beta < alpha$，$B_beta$ 中元素的势都小于 $kappa$，则从 $x in B_alpha$ 得到 $x$ 属于某个
+  $B_beta,beta < alpha$，于是 $|x| < kappa$。这样就证明了 @U元素小于kappa。
+
+  现在可以验证 $cal(U)$ 满足 Grothendieck 宇宙的定义了：
+
+  如果 $x in cal(U),y in x$，那么 $x$ 属于某个 $B_alpha$，我们用超限归纳法证明：对任意 $alpha < kappa$ 有断言
+  #nonum-equation[
+    $x in B_alpha and y in x --> y in B_alpha$
+  ]
+  当 $alpha = 0$ 时，$x in B_0$ 意味着存在正整数 $n$ 使得 $x in A_n$ 于是 $x subset A_(n+1)$，所以有 $y in B_0$。
+  当 $alpha = beta + 1$ 并且对于 $beta$ 断言成立，则 $x in B_alpha$ 就有 $x in B_beta$ 或 $x subset B_beta$，对于前者采用归纳假设，
+  对于后者直接有 $y in B_beta$，这样 $y in B_beta subset B_alpha$。而当 $alpha$ 是极限序数时，对 $alpha$ 断言可直接从归纳假设得到。
+  因此 $cal(U)$ 是传递集。
+
+  如果 $x,y in cal(U)$，则 $x,y$ 属于某个 $B_alpha$，这样 ${x,y} subset B_alpha$ 于是 ${x,y} in B_(alpha + 1) subset cal(U)$。
+
+  如果 $x in cal(U)$，则 $x$ 属于某个 $B_alpha$，我们用超限归纳法证明：对任意 $alpha < kappa$ 有断言
+  #nonum-equation[
+    $x in B_alpha --> "Pow"(x) in B_(alpha + 2)$
+  ]
+  当 $alpha = 0$ 时，$x$ 属于某个 $A_n$，则 $x subset A_(n+1)$，故 $x$ 的子集 $y subset A_(n+1) subset B_0$，进而 $y in "Pow"(B_0) subset B_1$，
+  也就是说 $"Pow"(x) subset B_1$，这样 $"Pow"(x) in B_2$。当 $alpha = beta + 1$ 时，如果断言对 $beta$ 成立，则
+  $x in B_alpha$ 蕴含 $x in B_beta$ 或者 $x subset B_beta$，对于前者我们有 $"Pow"(x) in B_(beta + 2) = B_(alpha + 1) subset B_(alpha + 2)$，
+  对于后者我们有 $"Pow"(x) subset "Pow"(B_beta) subset B_alpha$，所以 $"Pow"(x) in "Pow"(B_alpha) subset B_(alpha + 1) subset B_(alpha + 2)$。
+  如果 $alpha$ 是极限序数并且断言对 $beta<alpha$ 都成立，则 $x in B_alpha$ 意味着存在 $beta < alpha$ 使得 $x in B_beta$，由归纳假设有
+  $"Pow"(x) in B_(beta+2)$，注意到 $beta + 2 < alpha$ 因为 $alpha$ 是极限序数。这样就证明了 $cal(U)$ 对幂集运算封闭。
+
+  设 $(x_lambda)_(lambda in K)$ 是一族 $cal(U)$ 中元素的集合，并且 $K in cal(U)$。每个 $x_lambda$ 都属于某个 $B_alpha$，
+  可以选择一个函数 $alpha : K -> kappa$ 使得 $x_lambda in B_alpha(lambda)$。
 ]
 
 == von Neumann 宇宙
