@@ -284,8 +284,14 @@ $x_i in cal(U)$ 使得 $abs(x_i) = alpha_i$，以及某个 $cal(U)$ 中的与 $I
   如果 $alpha$ 是极限序数并且断言对 $beta<alpha$ 都成立，则 $x in B_alpha$ 意味着存在 $beta < alpha$ 使得 $x in B_beta$，由归纳假设有
   $"Pow"(x) in B_(beta+2)$，注意到 $beta + 2 < alpha$ 因为 $alpha$ 是极限序数。这样就证明了 $cal(U)$ 对幂集运算封闭。
 
-  设 $(x_lambda)_(lambda in K)$ 是一族 $cal(U)$ 中元素的集合，并且 $K in cal(U)$。每个 $x_lambda$ 都属于某个 $B_alpha$，
-  可以选择一个函数 $alpha : K -> kappa$ 使得 $x_lambda in B_alpha(lambda)$。
+  设 $(x_i)_(i in I)$ 是一族 $cal(U)$ 中元素的集合，并且 $I in cal(U)$。每个 $x_i$ 都属于某个 $B_alpha$，
+  可以选择一个函数 $alpha : I -> kappa$ 使得 $x_i in B_alpha(i)$。存在一个 $beta < kappa$ 使得对任意 $i in I$ 都有 $alpha(i) < beta$，否则
+  #nonum-equation[
+    $kappa = union.big_(i in I) (alpha(i) + 1)$
+  ]
+  注意到 $|alpha(i) + 1| < kappa$ 以及根据 @U元素小于kappa 有 $|I| < kappa$，这和 $kappa$ 是正则基数矛盾。现在根据 @B_alpha的定义
+  可知 $B_alpha$ 随着 $alpha$ 的增大而扩大，于是对任意 $i in I$ 都有 $x_i in B_beta$。于是根据前面的证明有 $x_i subset B_beta$，这样有
+  $x = union.big_(i in I) x_i subset B_beta$，所以 $x in B_(beta+1) subset cal(U)$，即 $cal(U)$ 对并集运算封闭。
 ]
 
 == von Neumann 宇宙
